@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Page</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-purple-600 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl max-w-lg w-full text-center transform transition-all duration-300 hover:scale-105">
+        
+        <!-- Header Section -->
+        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 leading-tight">
+            Hello There!
+        </h1>
+        <p class="text-lg md:text-xl text-gray-600 mb-8">
+            Welcome to your new, simple, and responsive web page. This template is built with Tailwind CSS.
+        </p>
+
+        <!-- Image Section (Placeholder) -->
+        <div class="mb-8">
+            <img 
+                src="https://placehold.co/600x300/E0F2F7/000000?text=Your+Awesome+Image" 
+                alt="Placeholder Image" 
+                class="w-full h-auto rounded-lg shadow-md mx-auto"
+                onerror="this.onerror=null;this.src='https://placehold.co/600x300/cccccc/333333?text=Image+Not+Found';"
+            >
+        </div>
+
+        <!-- Call to Action Button -->
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-300 focus:ring-opacity-75">
+            Get Started
+        </button>
+
+        <!-- Footer/Small Text -->
+        <p class="text-sm text-gray-400 mt-8">
+            &copy; 2025 Your Company. All rights reserved.
+        </p>
+
+    </div>
+
+</body>
+</html>
