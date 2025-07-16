@@ -1,0 +1,149 @@
+/* Basic Reset & Body Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.gallery-header {
+    background-color: #333;
+    color: #fff;
+    padding: 2em 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.gallery-header h1 {
+    margin: 0;
+    font-size: 2.5em;
+}
+
+.gallery-header p {
+    font-size: 1.1em;
+    opacity: 0.8;
+}
+
+/* Gallery Container (CSS Grid) */
+.gallery-container {
+    display: grid;
+    /* Responsive columns: At least 250px wide, as many as fit */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5em; /* Space between grid items */
+    padding: 2em;
+    max-width: 1200px; /* Max width for the gallery */
+    margin: 2em auto; /* Center the gallery */
+}
+
+/* Gallery Item Styles */
+.gallery-item {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures image corners are rounded with border-radius */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer; /* Indicate clickable item */
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.gallery-item img {
+    width: 100%; /* Make image fill its container */
+    height: 200px; /* Fixed height for uniformity */
+    object-fit: cover; /* Crops image to cover the area without distortion */
+    display: block; /* Removes extra space below images */
+}
+
+.gallery-item figcaption {
+    padding: 1em;
+    font-size: 0.9em;
+    text-align: center;
+    color: #555;
+    background-color: #f9f9f9;
+    border-top: 1px solid #eee;
+}
+
+/* Footer Styles */
+.gallery-footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1em 0;
+    margin-top: 3em;
+    font-size: 0.9em;
+}
+
+/* Lightbox Styles */
+.lightbox {
+    /* Initially hidden */
+    display: none;
+    position: fixed; /* Stays in place even when scrolling */
+    z-index: 1000; /* On top of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Enable scroll if image is too large */
+    background-color: rgba(0,0,0,0.9); /* Black background with transparency */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    flex-direction: column; /* Stack image and caption */
+}
+
+.lightbox-content {
+    margin: auto;
+    display: block;
+    max-width: 90%; /* Max width relative to viewport */
+    max-height: 80%; /* Max height relative to viewport */
+    border: 5px solid #fff; /* White border around the image */
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.lightbox-caption {
+    color: #fff;
+    font-size: 1.2em;
+    padding: 1em;
+    text-align: center;
+    max-width: 90%;
+    word-wrap: break-word; /* Prevent long captions from overflowing */
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Fade-in animation for lightbox (Optional) */
+.lightbox.fade-in {
+    animation: fadeIn 0.3s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Hide scrollbar on body when lightbox is open (prevents double scrollbar) */
+body.no-scroll {
+    overflow: hidden;
+}
