@@ -1,0 +1,51 @@
+ewhtfgigteidqegjdqgffrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaledfrom sklearn.preprocessing import MinMaxScaler
+scalar = MinMaxScaler()
+scaled_features = df2.drop('Outcome',axis=1)
+df2_scaled = pd.DataFrame(scaler.fit_transform(scaled_features), columns=scaled_features.columns)
+df2_scaled['Outcome'] = df2['Outcome']
+df2_scaled
