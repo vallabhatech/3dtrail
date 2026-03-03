@@ -33,64 +33,177 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     }
     
-    // Lightbox Functionality
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    // Dynamic Gallery Functionality
+    const galleryContainer = document.getElementById('gallery-container');
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const retryButton = document.getElementById('retry-button');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
     const closeButton = document.querySelector('.close-button');
     const body = document.body;
-
-    galleryItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
+    
+    let galleryData = [];
+    let galleryItems = [];
+    
+    // Fetch gallery data from JSON
+    async function loadGalleryData() {
+        try {
+            showLoadingState();
             
-            const img = this.querySelector('img');
-            const caption = this.querySelector('figcaption');
-            
-            // Set the image source and alt text for the lightbox
-            lightboxImg.src = img.src;
-            lightboxImg.alt = img.alt;
-            lightboxCaption.textContent = caption ? caption.textContent : '';
-            
-            // Show lightbox with animation
-            lightbox.classList.add('show');
-            body.classList.add('no-scroll');
-            
-            // Prevent body scroll on touch devices
-            document.addEventListener('touchmove', preventScroll, { passive: false });
-        });
-    });
-
-    // Close lightbox when the close button is clicked
-    closeButton.addEventListener('click', closeLightbox);
-
-    // Close lightbox when clicking outside the image
-    lightbox.addEventListener('click', function(e) {
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-
-    // Close lightbox with Escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === "Escape" && lightbox.classList.contains('show')) {
-            closeLightbox();
-        }
-        
-        // Keyboard navigation
-        if (lightbox.classList.contains('show')) {
-            const currentImg = Array.from(galleryItems).findIndex(item => 
-                item.querySelector('img').src === lightboxImg.src
-            );
-            
-            if (e.key === "ArrowLeft" && currentImg > 0) {
-                navigateToImage(currentImg - 1);
-            } else if (e.key === "ArrowRight" && currentImg < galleryItems.length - 1) {
-                navigateToImage(currentImg + 1);
+            const response = await fetch('images.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const data = await response.json();
+            galleryData = data.gallery || [];
+            
+            if (galleryData.length === 0) {
+                throw new Error('No images found in gallery data');
+            }
+            
+            renderGallery(galleryData);
+            hideLoadingState();
+            initializeLightbox();
+            initializeLazyLoading();
+            
+        } catch (error) {
+            console.error('Error loading gallery data:', error);
+            showErrorState(error.message);
         }
-    });
+    }
+    
+    // Show loading state
+    function showLoadingState() {
+        loadingState.style.display = 'block';
+        errorState.style.display = 'none';
+    }
+    
+    // Hide loading state
+    function hideLoadingState() {
+        loadingState.style.display = 'none';
+    }
+    
+    // Show error state
+    function showErrorState(message = 'Unable to load the gallery. Please try again later.') {
+        loadingState.style.display = 'none';
+        errorState.style.display = 'flex';
+        
+        const errorContent = errorState.querySelector('.error-content p');
+        if (errorContent) {
+            errorContent.textContent = message;
+        }
+    }
+    
+    // Render gallery items
+    function renderGallery(images) {
+        // Clear existing gallery items (keep loading and error states)
+        const existingItems = galleryContainer.querySelectorAll('.gallery-item');
+        existingItems.forEach(item => item.remove());
+        
+        // Create and append gallery items
+        images.forEach((imageData, index) => {
+            const galleryItem = createGalleryItem(imageData, index);
+            galleryContainer.appendChild(galleryItem);
+            galleryItems.push(galleryItem);
+        });
+    }
+    
+    // Create individual gallery item
+    function createGalleryItem(imageData, index) {
+        const figure = document.createElement('figure');
+        figure.className = 'gallery-item';
+        figure.setAttribute('data-index', index);
+        
+        const img = document.createElement('img');
+        img.src = imageData.src;
+        img.alt = imageData.alt || imageData.title;
+        img.loading = 'lazy';
+        img.setAttribute('data-title', imageData.title);
+        img.setAttribute('data-description', imageData.description || '');
+        
+        const figcaption = document.createElement('figcaption');
+        figcaption.textContent = imageData.title;
+        
+        figure.appendChild(img);
+        figure.appendChild(figcaption);
+        
+        // Add loading state for individual images
+        img.addEventListener('load', function() {
+            figure.style.opacity = '1';
+            figure.style.transform = 'translateY(0)';
+        });
+        
+        img.addEventListener('error', function() {
+            figure.style.opacity = '0.5';
+            figure.style.border = '2px dashed var(--border)';
+            figcaption.textContent = 'Image failed to load';
+        });
+        
+        // Initial state for animation
+        figure.style.opacity = '0';
+        figure.style.transform = 'translateY(20px)';
+        figure.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        
+        return figure;
+    }
+    
+    // Initialize lightbox functionality
+    function initializeLightbox() {
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const img = this.querySelector('img');
+                const title = img.getAttribute('data-title');
+                const description = img.getAttribute('data-description');
+                
+                // Set lightbox content
+                lightboxImg.src = img.src;
+                lightboxImg.alt = img.alt;
+                lightboxCaption.textContent = description || title;
+                
+                // Show lightbox with animation
+                lightbox.classList.add('show');
+                body.classList.add('no-scroll');
+                
+                // Prevent body scroll on touch devices
+                document.addEventListener('touchmove', preventScroll, { passive: false });
+            });
+        });
+        
+        // Close lightbox when the close button is clicked
+        closeButton.addEventListener('click', closeLightbox);
+        
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        
+        // Close lightbox with Escape key and keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape" && lightbox.classList.contains('show')) {
+                closeLightbox();
+            }
+            
+            // Keyboard navigation
+            if (lightbox.classList.contains('show')) {
+                const currentImg = Array.from(galleryItems).findIndex(item => 
+                    item.querySelector('img').src === lightboxImg.src
+                );
+                
+                if (e.key === "ArrowLeft" && currentImg > 0) {
+                    navigateToImage(currentImg - 1);
+                } else if (e.key === "ArrowRight" && currentImg < galleryItems.length - 1) {
+                    navigateToImage(currentImg + 1);
+                }
+            }
+        });
+    }
     
     function closeLightbox() {
         lightbox.classList.remove('show');
@@ -109,7 +222,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function navigateToImage(index) {
         const item = galleryItems[index];
         const img = item.querySelector('img');
-        const caption = item.querySelector('figcaption');
+        const title = img.getAttribute('data-title');
+        const description = img.getAttribute('data-description');
         
         // Add transition effect
         lightboxImg.style.opacity = '0';
@@ -118,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             lightboxImg.src = img.src;
             lightboxImg.alt = img.alt;
-            lightboxCaption.textContent = caption ? caption.textContent : '';
+            lightboxCaption.textContent = description || title;
             
             // Trigger reflow for smooth animation
             lightboxImg.offsetHeight;
@@ -132,51 +246,48 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
     }
     
-    // Add smooth scroll behavior for better UX
-    document.documentElement.style.scrollBehavior = 'smooth';
-    
-    // Performance optimization: Lazy loading for images
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.style.opacity = '0';
-                    
-                    img.addEventListener('load', function() {
-                        img.style.transition = 'opacity 0.5s ease';
-                        img.style.opacity = '1';
-                    });
-                    
-                    observer.unobserve(img);
-                }
+    // Initialize lazy loading
+    function initializeLazyLoading() {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        
+                        // Start loading the image
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+                        
+                        img.addEventListener('load', function() {
+                            img.style.opacity = '1';
+                            img.style.transform = 'scale(1)';
+                        });
+                        
+                        observer.unobserve(img);
+                    }
+                });
+            }, {
+                rootMargin: '50px 0px',
+                threshold: 0.01
             });
-        });
-        
-        document.querySelectorAll('.gallery-item img').forEach(img => {
-            imageObserver.observe(img);
+            
+            document.querySelectorAll('.gallery-item img').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    }
+    
+    // Retry button functionality
+    if (retryButton) {
+        retryButton.addEventListener('click', function() {
+            loadGalleryData();
         });
     }
     
-    // Add loading states for better perceived performance
-    galleryItems.forEach(item => {
-        const img = item.querySelector('img');
-        
-        img.addEventListener('load', function() {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        });
-        
-        img.addEventListener('error', function() {
-            item.style.opacity = '0.5';
-            item.style.border = '2px dashed var(--border)';
-        });
-        
-        // Initial state
-        item.style.opacity = '0';
-        item.style.transform = 'translateY(20px)';
-        item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
+    // Add smooth scroll behavior for better UX
+    document.documentElement.style.scrollBehavior = 'smooth';
     
     // Add subtle parallax effect on scroll (performance optimized)
     let ticking = false;
@@ -199,14 +310,32 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', requestTick);
     
-    // Add hover effect sound feedback (optional, for enhanced UX)
-    galleryItems.forEach(item => {
-        item.addEventListener('mouseenter', function() {
-            this.style.zIndex = '10';
+    // Add hover effect for better UX
+    function addHoverEffects() {
+        galleryItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.zIndex = '';
+            });
         });
-        
-        item.addEventListener('mouseleave', function() {
-            this.style.zIndex = '';
-        });
+    }
+    
+    // Initialize the gallery when page loads
+    loadGalleryData().then(() => {
+        addHoverEffects();
+    });
+    
+    // Handle online/offline status
+    window.addEventListener('online', function() {
+        if (galleryData.length === 0) {
+            loadGalleryData();
+        }
+    });
+    
+    window.addEventListener('offline', function() {
+        console.log('App is offline. Some features may not work.');
     });
 });

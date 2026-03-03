@@ -342,6 +342,127 @@ body {
   }
 }
 
+/* Loading State Styles */
+.loading-state {
+  padding: var(--space-2xl);
+}
+
+.skeleton-loader {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+}
+
+.skeleton-item {
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.skeleton-item::before {
+  content: '';
+  display: block;
+  height: 250px;
+  background: linear-gradient(90deg, 
+    var(--bg-secondary) 0%, 
+    var(--bg-tertiary) 50%, 
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.skeleton-item::after {
+  content: '';
+  display: block;
+  height: 60px;
+  background: linear-gradient(90deg, 
+    var(--bg-secondary) 0%, 
+    var(--bg-tertiary) 50%, 
+    var(--bg-secondary) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-top: 1px solid var(--border);
+}
+
+/* Error State Styles */
+.error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: var(--space-2xl);
+}
+
+.error-content {
+  text-align: center;
+  max-width: 400px;
+  background-color: var(--bg-secondary);
+  padding: var(--space-2xl);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+}
+
+.error-content h2 {
+  color: var(--text-primary);
+  margin: 0 0 var(--space-md) 0;
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.error-content p {
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-lg) 0;
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+
+.retry-button {
+  background-color: var(--accent);
+  color: white;
+  border: none;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-family: var(--font-family);
+}
+
+.retry-button:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.retry-button:active {
+  transform: translateY(0);
+}
+
+/* Skeleton Animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 /* Hide scrollbar on body when lightbox is open */
 body.no-scroll {
   overflow: hidden;

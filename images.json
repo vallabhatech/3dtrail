@@ -1,0 +1,40 @@
+{
+  "gallery": [
+    {
+      "src": "assets/images/image1.jpg",
+      "title": "Mountain Landscape",
+      "description": "Majestic mountain peaks at sunrise with golden light",
+      "alt": "Mountain landscape with sunrise"
+    },
+    {
+      "src": "assets/images/image2.jpg",
+      "title": "City Sunset",
+      "description": "Urban skyline bathed in warm sunset colors",
+      "alt": "City skyline during sunset"
+    },
+    {
+      "src": "assets/images/image3.jpg",
+      "title": "Forest Path",
+      "description": "Serene woodland trail through ancient trees",
+      "alt": "Forest path in the woods"
+    },
+    {
+      "src": "assets/images/image4.jpg",
+      "title": "Abstract Art",
+      "description": "Contemporary abstract composition with vibrant colors",
+      "alt": "Abstract art piece"
+    },
+    {
+      "src": "assets/images/image5.jpg",
+      "title": "Ocean Waves",
+      "description": "Powerful ocean waves crashing against rocky shores",
+      "alt": "Ocean waves on the coast"
+    },
+    {
+      "src": "assets/images/image6.jpg",
+      "title": "Desert Dunes",
+      "description": "Rolling sand dunes under a clear blue sky",
+      "alt": "Desert sand dunes landscape"
+    }
+  ]
+}

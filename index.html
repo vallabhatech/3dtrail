@@ -19,38 +19,30 @@
         <p>A curated collection of moments captured in time.</p>
     </header>
 
-    <main class="gallery-container">
-        <figure class="gallery-item">
-            <img src="assets/images/image1.jpg" alt="Description of Image 1">
-            <figcaption>Mountain Landscape</figcaption>
-        </figure>
-
-        <figure class="gallery-item">
-            <img src="assets/images/image2.jpg" alt="Description of Image 2">
-            <figcaption>City Sunset</figcaption>
-        </figure>
-
-        <figure class="gallery-item">
-            <img src="assets/images/image3.jpg" alt="Description of Image 3">
-            <figcaption>Forest Path</figcaption>
-        </figure>
-
-        <figure class="gallery-item">
-            <img src="assets/images/image4.jpg" alt="Description of Image 4">
-            <figcaption>Abstract Art</figcaption>
-        </figure>
-
-        <figure class="gallery-item">
-            <img src="assets/images/image5.jpg" alt="Description of Image 5">
-            <figcaption>Ocean Waves</figcaption>
-        </figure>
-
-        <figure class="gallery-item">
-            <img src="assets/images/image6.jpg" alt="Description of Image 6">
-            <figcaption>Desert Dunes</figcaption>
-        </figure>
-
-        </main>
+    <main class="gallery-container" id="gallery-container">
+        <!-- Loading skeleton will be shown here initially -->
+        <div class="loading-state" id="loading-state">
+            <div class="skeleton-loader">
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+                <div class="skeleton-item"></div>
+            </div>
+        </div>
+        
+        <!-- Error state (hidden by default) -->
+        <div class="error-state" id="error-state" style="display: none;">
+            <div class="error-content">
+                <h2>Oops! Something went wrong</h2>
+                <p>Unable to load the gallery. Please try again later.</p>
+                <button class="retry-button" id="retry-button">Try Again</button>
+            </div>
+        </div>
+        
+        <!-- Gallery items will be dynamically inserted here -->
+    </main>
 
     <footer class="gallery-footer">
         <p>&copy; 2025 Your Name. All rights reserved.</p>
