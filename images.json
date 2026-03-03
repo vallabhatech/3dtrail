@@ -1,40 +1,58 @@
 {
   "gallery": [
     {
-      "src": "assets/images/image1.jpg",
-      "title": "Mountain Landscape",
-      "description": "Majestic mountain peaks bathed in golden sunrise light, showcasing nature's breathtaking beauty",
-      "alt": "Mountain peaks at sunrise with warm golden light illuminating the rugged terrain"
+      "src": "assets/images/PROFILE .jpg",
+      "title": "Professional Profile",
+      "description": "Professional headshot showcasing expertise and confidence in technology and innovation",
+      "alt": "Professional portrait photograph with confident expression and professional attire"
     },
     {
-      "src": "assets/images/image2.jpg",
-      "title": "City Sunset",
-      "description": "Urban skyline transformed by vibrant sunset colors, where architecture meets natural beauty",
-      "alt": "City skyline silhouette against colorful sunset sky with tall buildings"
+      "src": "assets/images/happy-family-looking-through-window-while-moving-into-new-home.jpg",
+      "title": "New Beginnings",
+      "description": "Family gazing through window during move to new home, symbolizing hope and new adventures",
+      "alt": "Family members looking through window with moving boxes in new home interior"
     },
     {
-      "src": "assets/images/image3.jpg",
-      "title": "Forest Path",
-      "description": "Serene woodland trail winding through ancient trees, inviting peaceful exploration",
-      "alt": "Dirt path through dense forest with tall trees and filtered sunlight"
+      "src": "assets/images/spending-weekend-together-family-have-good-time-parkland-young-painter-teaching-how-draw.jpg",
+      "title": "Creative Weekend",
+      "description": "Family enjoying quality time together while nurturing artistic skills in the park",
+      "alt": "Family in park setting with art supplies and drawing activities"
     },
     {
-      "src": "assets/images/image4.jpg",
-      "title": "Abstract Art",
-      "description": "Contemporary abstract composition featuring vibrant colors and dynamic forms",
-      "alt": "Abstract artwork with bold colors and geometric patterns"
+      "src": "assets/images/young-family-have-fun-relaxing-outdoors-countryside.jpg",
+      "title": "Countryside Adventures",
+      "description": "Young family enjoying outdoor relaxation and fun in beautiful countryside setting",
+      "alt": "Family relaxing outdoors in rural countryside with natural scenery"
     },
     {
-      "src": "assets/images/image5.jpg",
-      "title": "Ocean Waves",
-      "description": "Powerful ocean waves crashing against rocky shores, capturing nature's raw energy",
-      "alt": "Ocean waves with white foam splashing against dark rocks"
+      "src": "assets/images/dashboard.png",
+      "title": "Analytics Dashboard",
+      "description": "Modern data visualization dashboard showcasing key metrics and insights",
+      "alt": "Digital dashboard interface with charts, graphs and data analytics"
     },
     {
-      "src": "assets/images/image6.jpg",
-      "title": "Desert Dunes",
-      "description": "Rolling sand dunes stretching endlessly under clear blue sky",
-      "alt": "Sandy desert dunes with rippling patterns under clear sky"
+      "src": "assets/images/landing_page.png",
+      "title": "Modern Landing Page",
+      "description": "Contemporary web design with clean layout and engaging user interface",
+      "alt": "Website landing page with modern design elements and call-to-action sections"
+    },
+    {
+      "src": "assets/images/risk_assessment.png",
+      "title": "Risk Analysis",
+      "description": "Comprehensive risk assessment dashboard with visual indicators and metrics",
+      "alt": "Risk assessment interface with charts, indicators and analytical data visualization"
+    },
+    {
+      "src": "assets/images/upload.png",
+      "title": "Cloud Upload",
+      "description": "Modern file upload interface with drag-and-drop functionality and progress indicators",
+      "alt": "File upload interface with cloud storage integration and progress bars"
+    },
+    {
+      "src": "assets/images/veritas.jpeg",
+      "title": "Veritas",
+      "description": "Professional certification or achievement showcasing commitment to excellence",
+      "alt": "Professional certificate or award document with official seals"
     }
   ]
 }
