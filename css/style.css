@@ -1,149 +1,405 @@
+/* CSS Variables & Color System */
+:root {
+  /* Light mode colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-sm: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+  --font-size-lg: clamp(1.125rem, 1rem + 0.625vw, 1.25rem);
+  --font-size-xl: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --font-size-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --font-size-3xl: clamp(2rem, 1.7rem + 1.5vw, 2.5rem);
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 350ms ease;
+}
+
+/* Dark mode colors */
+[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --accent: #60a5fa;
+  --accent-hover: #3b82f6;
+  --border: #334155;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.25);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5);
+}
+
 /* Basic Reset & Body Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
-    line-height: 1.6;
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: var(--font-size-base);
+  transition: background-color var(--transition-base), color var(--transition-base);
+  min-height: 100vh;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  font-size: var(--font-size-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-tertiary);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-icon {
+  transition: transform var(--transition-base);
+}
+
+.theme-toggle:hover .theme-icon {
+  transform: rotate(20deg);
 }
 
 /* Header Styles */
 .gallery-header {
-    background-color: #333;
-    color: #fff;
-    padding: 2em 0;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  padding: var(--space-2xl) 0;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 .gallery-header h1 {
-    margin: 0;
-    font-size: 2.5em;
+  margin: 0;
+  font-size: var(--font-size-3xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-sm);
 }
 
 .gallery-header p {
-    font-size: 1.1em;
-    opacity: 0.8;
+  font-size: var(--font-size-lg);
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 400;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: color var(--transition-base);
 }
 
 /* Gallery Container (CSS Grid) */
 .gallery-container {
-    display: grid;
-    /* Responsive columns: At least 250px wide, as many as fit */
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5em; /* Space between grid items */
-    padding: 2em;
-    max-width: 1200px; /* Max width for the gallery */
-    margin: 2em auto; /* Center the gallery */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  padding: var(--space-2xl);
+  max-width: 1400px;
+  margin: var(--space-2xl) auto;
+  transition: gap var(--transition-base);
 }
 
 /* Gallery Item Styles */
 .gallery-item {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden; /* Ensures image corners are rounded with border-radius */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer; /* Indicate clickable item */
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  position: relative;
+  border: 1px solid var(--border);
 }
 
 .gallery-item:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--accent);
+}
+
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(59, 130, 246, 0.1) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  pointer-events: none;
+}
+
+.gallery-item:hover::before {
+  opacity: 1;
 }
 
 .gallery-item img {
-    width: 100%; /* Make image fill its container */
-    height: 200px; /* Fixed height for uniformity */
-    object-fit: cover; /* Crops image to cover the area without distortion */
-    display: block; /* Removes extra space below images */
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-slow);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
 }
 
 .gallery-item figcaption {
-    padding: 1em;
-    font-size: 0.9em;
-    text-align: center;
-    color: #555;
-    background-color: #f9f9f9;
-    border-top: 1px solid #eee;
+  padding: var(--space-lg);
+  font-size: var(--font-size-base);
+  text-align: center;
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.gallery-item:hover figcaption {
+  color: var(--accent);
+  background-color: var(--bg-tertiary);
 }
 
 /* Footer Styles */
 .gallery-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1em 0;
-    margin-top: 3em;
-    font-size: 0.9em;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  text-align: center;
+  padding: var(--space-xl) 0;
+  margin-top: var(--space-3xl);
+  font-size: var(--font-size-sm);
+  border-top: 1px solid var(--border);
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* Lightbox Styles */
 .lightbox {
-    /* Initially hidden */
-    display: none;
-    position: fixed; /* Stays in place even when scrolling */
-    z-index: 1000; /* On top of everything */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto; /* Enable scroll if image is too large */
-    background-color: rgba(0,0,0,0.9); /* Black background with transparency */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    flex-direction: column; /* Stack image and caption */
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.95);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox.show {
+  display: flex;
+  animation: fadeInScale 0.4s ease-out;
 }
 
 .lightbox-content {
-    margin: auto;
-    display: block;
-    max-width: 90%; /* Max width relative to viewport */
-    max-height: 80%; /* Max height relative to viewport */
-    border: 5px solid #fff; /* White border around the image */
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 80%;
+  border: 3px solid var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  transform: scale(0.9);
+  opacity: 0;
+  animation: scaleIn 0.4s ease-out 0.1s forwards;
 }
 
 .lightbox-caption {
-    color: #fff;
-    font-size: 1.2em;
-    padding: 1em;
-    text-align: center;
-    max-width: 90%;
-    word-wrap: break-word; /* Prevent long captions from overflowing */
+  color: var(--bg-primary);
+  font-size: var(--font-size-lg);
+  padding: var(--space-lg);
+  text-align: center;
+  max-width: 90%;
+  word-wrap: break-word;
+  font-weight: 500;
+  opacity: 0;
+  animation: slideUp 0.4s ease-out 0.2s forwards;
 }
 
 .close-button {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
+  position: absolute;
+  top: var(--space-xl);
+  right: var(--space-xl);
+  color: var(--bg-primary);
+  font-size: var(--font-size-3xl);
+  font-weight: bold;
+  transition: all var(--transition-base);
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .close-button:hover,
 .close-button:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
+  color: var(--accent);
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1) rotate(90deg);
 }
 
-/* Fade-in animation for lightbox (Optional) */
-.lightbox.fade-in {
-    animation: fadeIn 0.3s forwards;
+/* Animations */
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* Hide scrollbar on body when lightbox is open (prevents double scrollbar) */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hide scrollbar on body when lightbox is open */
 body.no-scroll {
-    overflow: hidden;
+  overflow: hidden;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .gallery-container {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+  }
+  
+  .gallery-header {
+    padding: var(--space-xl) var(--space-md);
+  }
+  
+  .gallery-header h1 {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .theme-toggle {
+    top: var(--space-md);
+    right: var(--space-md);
+  }
+  
+  .gallery-item img {
+    height: 200px;
+  }
+  
+  .lightbox-content {
+    max-width: 95%;
+    max-height: 70%;
+  }
+  
+  .close-button {
+    top: var(--space-md);
+    right: var(--space-md);
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-container {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: var(--space-md);
+  }
+  
+  .gallery-header h1 {
+    font-size: var(--font-size-xl);
+  }
+  
+  .gallery-header p {
+    font-size: var(--font-size-base);
+  }
+  
+  .gallery-item img {
+    height: 180px;
+  }
 }
