@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
         
+        // Update ARIA pressed state
+        themeToggle.setAttribute('aria-pressed', newTheme === 'dark');
+        
         // Add a little animation feedback
         themeToggle.style.transform = 'scale(0.9)';
         setTimeout(() => {
@@ -41,11 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
-    const closeButton = document.querySelector('.close-button');
+    const closeButton = document.getElementById('lightbox-close');
     const body = document.body;
     
     let galleryData = [];
     let galleryItems = [];
+    let lastFocusedElement = null;
     
     // Fetch gallery data from JSON
     async function loadGalleryData() {
@@ -79,17 +83,20 @@ document.addEventListener('DOMContentLoaded', function() {
     function showLoadingState() {
         loadingState.style.display = 'block';
         errorState.style.display = 'none';
+        loadingState.setAttribute('aria-busy', 'true');
     }
     
     // Hide loading state
     function hideLoadingState() {
         loadingState.style.display = 'none';
+        loadingState.setAttribute('aria-busy', 'false');
     }
     
     // Show error state
-    function showErrorState(message = 'Unable to load the gallery. Please try again later.') {
+    function showErrorState(message = 'Unable to load gallery. Please try again later.') {
         loadingState.style.display = 'none';
         errorState.style.display = 'flex';
+        errorState.setAttribute('aria-live', 'assertive');
         
         const errorContent = errorState.querySelector('.error-content p');
         if (errorContent) {
@@ -116,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const figure = document.createElement('figure');
         figure.className = 'gallery-item';
         figure.setAttribute('data-index', index);
+        figure.setAttribute('role', 'figure');
+        figure.setAttribute('aria-label', imageData.title);
+        figure.setAttribute('tabindex', '0');
         
         const img = document.createElement('img');
         img.src = imageData.src;
@@ -123,9 +133,11 @@ document.addEventListener('DOMContentLoaded', function() {
         img.loading = 'lazy';
         img.setAttribute('data-title', imageData.title);
         img.setAttribute('data-description', imageData.description || '');
+        img.setAttribute('role', 'img');
         
         const figcaption = document.createElement('figcaption');
         figcaption.textContent = imageData.title;
+        figcaption.setAttribute('role', 'caption');
         
         figure.appendChild(img);
         figure.appendChild(figcaption);
@@ -134,20 +146,60 @@ document.addEventListener('DOMContentLoaded', function() {
         img.addEventListener('load', function() {
             figure.style.opacity = '1';
             figure.style.transform = 'translateY(0)';
+            figure.setAttribute('aria-busy', 'false');
         });
         
         img.addEventListener('error', function() {
             figure.style.opacity = '0.5';
             figure.style.border = '2px dashed var(--border)';
             figcaption.textContent = 'Image failed to load';
+            figure.setAttribute('aria-invalid', 'true');
         });
         
         // Initial state for animation
         figure.style.opacity = '0';
         figure.style.transform = 'translateY(20px)';
         figure.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        figure.setAttribute('aria-busy', 'true');
+        
+        // Add keyboard support for gallery items
+        figure.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openLightbox(this);
+            }
+        });
         
         return figure;
+    }
+    
+    // Open lightbox with proper accessibility
+    function openLightbox(item) {
+        const img = item.querySelector('img');
+        const title = img.getAttribute('data-title');
+        const description = img.getAttribute('data-description');
+        
+        // Store last focused element for return
+        lastFocusedElement = document.activeElement;
+        
+        // Set lightbox content
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightboxCaption.textContent = description || title;
+        
+        // Show lightbox with proper ARIA attributes
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('show');
+        lightbox.setAttribute('aria-hidden', 'false');
+        body.classList.add('no-scroll');
+        
+        // Focus management
+        setTimeout(() => {
+            closeButton.focus();
+        }, 100);
+        
+        // Prevent body scroll on touch devices
+        document.addEventListener('touchmove', preventScroll, { passive: false });
     }
     
     // Initialize lightbox functionality
@@ -155,50 +207,68 @@ document.addEventListener('DOMContentLoaded', function() {
         galleryItems.forEach(item => {
             item.addEventListener('click', function(e) {
                 e.preventDefault();
-                
-                const img = this.querySelector('img');
-                const title = img.getAttribute('data-title');
-                const description = img.getAttribute('data-description');
-                
-                // Set lightbox content
-                lightboxImg.src = img.src;
-                lightboxImg.alt = img.alt;
-                lightboxCaption.textContent = description || title;
-                
-                // Show lightbox with animation
-                lightbox.classList.add('show');
-                body.classList.add('no-scroll');
-                
-                // Prevent body scroll on touch devices
-                document.addEventListener('touchmove', preventScroll, { passive: false });
+                openLightbox(this);
             });
         });
         
         // Close lightbox when the close button is clicked
         closeButton.addEventListener('click', closeLightbox);
-        
-        // Close lightbox when clicking outside the image
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
+        closeButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
                 closeLightbox();
             }
         });
         
-        // Close lightbox with Escape key and keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape" && lightbox.classList.contains('show')) {
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-content-wrapper')) {
                 closeLightbox();
             }
-            
-            // Keyboard navigation
+        });
+        
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            // Trap focus within lightbox when open
             if (lightbox.classList.contains('show')) {
+                if (e.key === "Escape") {
+                    e.preventDefault();
+                    closeLightbox();
+                    return;
+                }
+                
+                // Tab navigation within lightbox
+                if (e.key === "Tab") {
+                    const focusableElements = lightbox.querySelectorAll(
+                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                    );
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+                    
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            e.preventDefault();
+                            lastElement.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            e.preventDefault();
+                            firstElement.focus();
+                        }
+                    }
+                    return;
+                }
+                
+                // Image navigation with arrow keys
                 const currentImg = Array.from(galleryItems).findIndex(item => 
                     item.querySelector('img').src === lightboxImg.src
                 );
                 
                 if (e.key === "ArrowLeft" && currentImg > 0) {
+                    e.preventDefault();
                     navigateToImage(currentImg - 1);
                 } else if (e.key === "ArrowRight" && currentImg < galleryItems.length - 1) {
+                    e.preventDefault();
                     navigateToImage(currentImg + 1);
                 }
             }
@@ -207,8 +277,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function closeLightbox() {
         lightbox.classList.remove('show');
+        lightbox.classList.add('hidden');
+        lightbox.setAttribute('aria-hidden', 'true');
         body.classList.remove('no-scroll');
         document.removeEventListener('touchmove', preventScroll);
+        
+        // Return focus to last focused element
+        if (lastFocusedElement) {
+            lastFocusedElement.focus();
+            lastFocusedElement = null;
+        }
         
         // Reset animations
         setTimeout(() => {
@@ -254,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (entry.isIntersecting) {
                         const img = entry.target;
                         
-                        // Start loading the image
+                        // Start loading image
                         if (img.dataset.src) {
                             img.src = img.dataset.src;
                             img.removeAttribute('data-src');
@@ -283,6 +361,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (retryButton) {
         retryButton.addEventListener('click', function() {
             loadGalleryData();
+        });
+        
+        retryButton.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                loadGalleryData();
+            }
         });
     }
     
@@ -323,7 +408,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Initialize the gallery when page loads
+    // Initialize gallery when page loads
     loadGalleryData().then(() => {
         addHoverEffects();
     });

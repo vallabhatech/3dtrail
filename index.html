@@ -3,55 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Gallery</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Photography Portfolio - Vallabha Tech</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="A curated photography portfolio showcasing stunning landscapes, cityscapes, and abstract art captured by Vallabha Tech.">
+    <meta name="keywords" content="photography, portfolio, landscape, cityscape, abstract art, nature, mountains, ocean, desert, forest">
+    <meta name="author" content="Vallabha Tech">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://vallabhatech.github.io/photo-gallery/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Photography Portfolio - Vallabha Tech">
+    <meta property="og:description" content="A curated photography portfolio showcasing stunning landscapes, cityscapes, and abstract art.">
+    <meta property="og:image" content="https://vallabhatech.github.io/photo-gallery/assets/images/mountain-landscape.jpg">
+    <meta property="og:url" content="https://vallabhatech.github.io/photo-gallery/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Vallabha Tech Photography">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Photography Portfolio - Vallabha Tech">
+    <meta name="twitter:description" content="A curated photography portfolio showcasing stunning landscapes, cityscapes, and abstract art.">
+    <meta name="twitter:image" content="https://vallabhatech.github.io/photo-gallery/assets/images/mountain-landscape.jpg">
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <header class="gallery-header">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-            <span class="theme-icon">🌙</span>
+    <header class="gallery-header" role="banner">
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+            <span class="theme-icon" aria-hidden="true">🌙</span>
         </button>
-        <h1>Photography Portfolio</h1>
-        <p>A curated collection of moments captured in time.</p>
+        <div class="header-content">
+            <h1>Photography Portfolio</h1>
+            <p>A curated collection of moments captured in time.</p>
+        </div>
     </header>
 
-    <main class="gallery-container" id="gallery-container">
+    <main class="gallery-container" id="gallery-container" role="main" aria-label="Photo gallery">
         <!-- Loading skeleton will be shown here initially -->
-        <div class="loading-state" id="loading-state">
+        <div class="loading-state" id="loading-state" role="status" aria-live="polite">
             <div class="skeleton-loader">
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item"></div>
-                <div class="skeleton-item"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
+                <div class="skeleton-item" aria-hidden="true"></div>
             </div>
         </div>
         
         <!-- Error state (hidden by default) -->
-        <div class="error-state" id="error-state" style="display: none;">
+        <div class="error-state" id="error-state" role="alert" aria-live="assertive" style="display: none;">
             <div class="error-content">
                 <h2>Oops! Something went wrong</h2>
                 <p>Unable to load the gallery. Please try again later.</p>
-                <button class="retry-button" id="retry-button">Try Again</button>
+                <button class="retry-button" id="retry-button" aria-label="Retry loading gallery">Try Again</button>
             </div>
         </div>
         
         <!-- Gallery items will be dynamically inserted here -->
     </main>
 
-    <footer class="gallery-footer">
-        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    <footer class="gallery-footer" role="contentinfo">
+        <p>&copy; 2026 Vallabha Tech. All rights reserved.</p>
     </footer>
 
-    <div id="lightbox" class="lightbox">
-        <span class="close-button">&times;</span>
-        <img class="lightbox-content" id="lightbox-img" src="">
-        <div id="lightbox-caption" class="lightbox-caption"></div>
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption" hidden>
+        <button class="close-button" id="lightbox-close" aria-label="Close lightbox" tabindex="0">&times;</button>
+        <div class="lightbox-content-wrapper">
+            <img class="lightbox-content" id="lightbox-img" src="" alt="" role="img" tabindex="0">
+            <div id="lightbox-caption" class="lightbox-caption" role="document"></div>
+        </div>
     </div>
 
     <script src="js/script.js"></script>
